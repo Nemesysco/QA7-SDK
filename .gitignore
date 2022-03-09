@@ -1,0 +1,9 @@
+*.user
+bin/
+obj/
+packages/
+*.suo
+*.csproj.user
+Publish/
+/.project
+.vs/
