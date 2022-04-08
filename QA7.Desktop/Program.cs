@@ -22,6 +22,9 @@ namespace QA7.Desktop
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
+                NmsLogger.Init(AppUtility.GetUserAppDataPath());
+
                 Application.Run(new MainForm());
             }
             catch (Exception ex)

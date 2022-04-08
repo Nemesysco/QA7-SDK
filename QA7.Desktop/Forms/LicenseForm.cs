@@ -187,7 +187,8 @@ namespace QA7.Desktop.Forms
         {
             using (new WaitCursor())
             {
-                lblLicenseInfo.Text = LicenseManager.ToString(LicenseManager.GetInfo());
+                var li = LicenseManager.GetInfo(AppUtility.GetVersion());
+                lblLicenseInfo.Text = LicenseManager.ToString(li);
             }                
         }
     }

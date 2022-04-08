@@ -87,7 +87,7 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>qa7favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon32.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Extensions\DataGridViewExtensions.cs" />
+    <Compile Include="Core\Utility\AppUtility.cs" />
     <Compile Include="Core\Utility\DialogUtility.cs" />
     <Compile Include="Core\Utility\WaitCursor.cs" />
     <Compile Include="Forms\LicenseForm.cs">
@@ -167,6 +168,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\LicenseForm.resx">
       <DependentUpon>LicenseForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -174,6 +176,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JsonOutput.resx">
       <DependentUpon>JsonOutput.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -229,7 +232,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="qa7favicon.ico" />
+    <None Include="Resources\icon50.ico" />
+    <None Include="Resources\icon32.ico" />
+    <None Include="Resources\icon16.ico" />
     <Content Include="Tools\ffmpeg.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -103,9 +103,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="QA7MFC2, Version=7.1.0.6, Culture=neutral, PublicKeyToken=f6ae4907cdc11126, processorArchitecture=AMD64">
+    <Reference Include="QA7MFC2, Version=7.1.0.6, Culture=neutral, PublicKeyToken=f6ae4907cdc11126, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLL\x86\QA7MFC2.dll</HintPath>
+      <HintPath>..\..\qa7sdk.github\NMS.Core\DLL\x86\QA7MFC2.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.15.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.15.0\lib\net452\RestSharp.dll</HintPath>
@@ -144,10 +144,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLL\x86\QA7MFC2.dll" />
+    <Folder Include="DLL\x64\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DLL\x64\" />
+    <Content Include="DLL\x86\QA7MFC2.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

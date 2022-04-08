@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("QA7 Voice Analyzer")]
-[assembly: AssemblyDescription("Testing tool of QA7 Voice Analyzer")]
+[assembly: AssemblyDescription("Demo of QA7 Voice Analyzer")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Nemesysco Ltd.")]
+[assembly: AssemblyCompany("Nemesysco")]
 [assembly: AssemblyProduct("QA7 Voice Analyzer")]
 [assembly: AssemblyCopyright("Copyright © 2020")]
 [assembly: AssemblyTrademark("")]

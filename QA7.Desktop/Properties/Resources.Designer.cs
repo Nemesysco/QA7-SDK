@@ -59,5 +59,35 @@ namespace QA7.Desktop.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon icon16 {
+            get {
+                object obj = ResourceManager.GetObject("icon16", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon icon32 {
+            get {
+                object obj = ResourceManager.GetObject("icon32", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon icon50 {
+            get {
+                object obj = ResourceManager.GetObject("icon50", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

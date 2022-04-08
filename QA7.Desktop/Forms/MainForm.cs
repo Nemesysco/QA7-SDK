@@ -28,7 +28,6 @@ namespace QA7.Desktop.Forms
         private StringBuilder _sb = new StringBuilder(); // TODO: AG: ???
         private NmsAnalysis _analysis = new NmsAnalysis();
         
-        private string _inputAppID = "QA7";
         private List<NmsAnalysis> _batchJsonResults = new List<NmsAnalysis>();
 
 
@@ -39,16 +38,21 @@ namespace QA7.Desktop.Forms
         {
             get
             {
-                var cfg = ConfigUtility.GetValue("DataPath");
-                return cfg == string.Empty ? Path.Combine(Application.StartupPath, "Data") : cfg;
+                return Path.Combine(AppUtility.GetUserAppDataPath(), "Data");
             }
         }
         public string ReportsPath
         {
             get
             {
-                var cfg = ConfigUtility.GetValue("ReportsPath");
-                return cfg == string.Empty ? Path.Combine(Application.StartupPath, "Reports") : cfg;
+                return Path.Combine(AppUtility.GetUserAppDataPath(), "Reports");
+            }
+        }
+        public string LicensePath
+        {
+            get
+            {
+                return Path.Combine(AppUtility.GetUserAppDataPath(), "License");
             }
         }
 
@@ -60,13 +64,6 @@ namespace QA7.Desktop.Forms
 
         public MainForm()
         {
-            // Verify multi licenses
-            var isMultiLicense = Convert.ToBoolean(ConfigUtility.GetValue("multi"));
-            if (isMultiLicense)
-            {
-                _inputAppID = Microsoft.VisualBasic.Interaction.InputBox("Please provide an AppID", "Tester", "1");
-            }
-
             InitializeComponent();
 
             pnlMain.Width = this.Width;
@@ -210,11 +207,17 @@ namespace QA7.Desktop.Forms
 
                         if (options.Normalize) //Do Normalization if needed
                         {
-                            cFileName = NMS.Audio.NmsAudioHelper.SaveFile(cFileName, ConfigurationManager.AppSettings["DataPath"]);
+                            cFileName = NMS.Audio.NmsAudioHelper.SaveFile(cFileName, DataPath);
                             cFileName = AudioConverter.ToWav(cFileName, FFMpegPath, DataPath, options.SetMono);
                         }
 
                         var analysisInfo = manager.ProcessFile(cFileName, options);
+                        if (analysisInfo.Segments == null)
+                        {
+                            DialogUtility.ShowErrorMessage("Unable to process file. See log file to get more details.");
+                            throw new InvalidOperationException($"Unable to process file {Path.GetFileName(cFileName)}");
+                        }
+
                         analysisInfo.AudioFile = Path.GetFileNameWithoutExtension(txtAudioFile.Text);
 
                         var wavInfo = WavInfo.Get(cFileName);
@@ -403,7 +406,7 @@ namespace QA7.Desktop.Forms
 
         private void InitFolders()
         {
-            string[] folderCheck = { DataPath, ReportsPath };
+            string[] folderCheck = { DataPath, ReportsPath, LicensePath };
 
             foreach (var dir in folderCheck)
             {
@@ -416,7 +419,7 @@ namespace QA7.Desktop.Forms
 
         private void InitLicenseInfo()
         {
-            var rc = LicenseManager.Init(ConfigUtility.GetValue("LicPath"));
+            var rc = LicenseManager.Init(LicensePath);
 
             if (rc == -999)
             {
@@ -425,16 +428,16 @@ namespace QA7.Desktop.Forms
                 return;
             }
 
-            var info = LicenseManager.GetInfo();
-            SystemId = info.SystemId;
+            var li = LicenseManager.GetInfo(AppUtility.GetVersion());
+            SystemId = li.SystemId;
 
-            if (info.SystemId.Length == 35 || info.LicensePosts == 0 || rc != 0)
+            if (li.SystemId.Length == 35 || li.LicensePosts == 0 || rc != 0)
             {
                 var form = new LicenseForm(this, false);
                 form.ShowDialog();
             }
 
-            LicenseText = LicenseManager.ToString(info);
+            LicenseText = LicenseManager.ToString(li);
         }
     }
 }

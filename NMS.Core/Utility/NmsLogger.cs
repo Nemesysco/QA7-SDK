@@ -1,13 +1,45 @@
-﻿using log4net;
-using System;
-using System.Reflection;
+﻿using System;
+using System.IO;
+
+using log4net;
+using log4net.Appender;
+using log4net.Core;
+using log4net.Layout;
+using log4net.Repository.Hierarchy;
 
 namespace NMS.Core.Utility
 {
     public static class NmsLogger
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static ILog _log;
 
+
+        public static void Init(string folder)
+        {
+            var appender = new RollingFileAppender
+            {
+                Name = "AppLogAppender",
+                File = Path.Combine(folder, "Logs", "log-file.txt"),
+                AppendToFile = true,
+                LockingModel = new FileAppender.MinimalLock(),
+                Layout = new PatternLayout("%date{dd.MM.yyyy HH:mm:ss} %-5level - %message%newline"),
+                Threshold = Level.All,
+                MaximumFileSize = "10MB",
+                MaxSizeRollBackups = 20,
+                RollingStyle = RollingFileAppender.RollingMode.Date,
+                StaticLogFileName = true,
+                DatePattern = ".yyyy.MM.dd"
+            };
+
+            appender.ActivateOptions();
+
+            var log = LogManager.GetLogger("AppLog");
+            var logger = (Logger)log.Logger;
+            logger.AddAppender(appender);
+            logger.Repository.Configured = true;
+
+            _log = log;
+        }
 
         public static bool IsDebugEnabled
         {

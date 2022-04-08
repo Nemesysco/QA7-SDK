@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 using NMS.Core.Entities;
 using NMS.Core.Entities.Enums;
 using NMS.Core.Utility;
@@ -13,14 +13,7 @@ namespace NMS.Core
         private static mngQA7ServerCls _server;
         private static readonly string _defOwner = "Nemesysco Ltd";
 
-        private static bool IsDebugMode
-        {
-            get
-            {
-                return Convert.ToBoolean(ConfigUtility.GetValue("debugmode"));
-            }
-        }
-
+        
         public static short Init(string licensePath, string appId = "QA7")
         {
             if (_server == null)
@@ -34,23 +27,15 @@ namespace NMS.Core
                 return 992;
             }
 
-            var licFile = $"SOFTLIC:{licensePath}QA7lic.lic";
+            var p = Path.Combine(licensePath, "QA7lic.lic");
+            var licFile = $"SOFTLIC:{p}";
             var username = "APP";
 
             _ = _server.nmsSRV_ResetCounter(licFile);
-            var rc = _server.nmsSRV_INIT(_defOwner, appId, username);
-
-            if (IsDebugMode)
-            {
-                var li = GetInfo();
-                NmsLogger.Info(
-                    $"SystemID: {li.SystemId} | licensePosts {li.LicensePosts} | callsCount = {li.CallCounter} | currentlyRunning: {li.RunningInstances} | softLicFile: {licFile}");
-            }
-
-            return rc;
+            return _server.nmsSRV_INIT(_defOwner, appId, username);
         }
 
-        public static LicenseInfo GetInfo()
+        public static LicenseInfo GetInfo(string appVersion)
         {
             var li = new LicenseInfo(ServiceType.QA7);
 
@@ -58,6 +43,7 @@ namespace NMS.Core
             int runningInstances = 0;
             short licensePosts = 0;
 
+            li.AppVersion = appVersion;
             li.CoreVersion = GetVersion();
             li.SystemId = GetOpDetails(ref callCounter, string.Empty, ref licensePosts, ref runningInstances);
             li.CallCounter = callCounter;
@@ -76,7 +62,7 @@ namespace NMS.Core
                 $"Calls Counter: {li.CallCounter}\r\n" +
                 $"Running Instances: {li.RunningInstances}\r\n" +
                 $"Minutes Counter: {li.MinutesCounter}\r\n" +
-                $"QA7 {ConfigUtility.GetValue("version")} Tester\r\n" +
+                $"Application Version: {li.AppVersion}\r\n" +
                 $"Core Version: {li.CoreVersion}\r\n" +
                 $"Platform: {li.PlatformType}";
         }

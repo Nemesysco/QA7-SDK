@@ -13,6 +13,7 @@ namespace NMS.Core.Entities
         public int CallCounter { get; set; }
         public int MinutesCounter { get; set; }
         public string APIVersion { get; set; }
+        public string AppVersion { get; set; }
         public string CoreVersion { get; set; }
         public string PlatformType { get; set; } = IntPtr.Size == 8 ? "x64" : "x86";
 
